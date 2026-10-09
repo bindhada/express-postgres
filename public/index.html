@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Library Management</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 850px;
+      margin: 40px auto;
+      padding: 0 20px;
+      background: #f5f7fa;
+      color: #202938;
+    }
+
+    h1, h2 {
+      color: #243b53;
+    }
+
+    form, .book {
+      background: white;
+      padding: 18px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 5px #00000010;
+    }
+
+    input, button {
+      padding: 10px;
+      margin: 5px 0;
+      font: inherit;
+    }
+
+    input {
+      box-sizing: border-box;
+      width: 100%;
+    }
+
+    button {
+      cursor: pointer;
+      border: 0;
+      border-radius: 5px;
+      background: #2563eb;
+      color: white;
+    }
+
+    button.delete {
+      background: #dc2626;
+    }
+
+    #message {
+      white-space: pre-wrap;
+      margin: 12px 0;
+    }
+
+    .error {
+      color: #b91c1c;
+    }
+
+    .success {
+      color: #166534;
+    }
+  </style>
+</head>
+<body>
+  <h1>Library Management</h1>
+  <p>Manage books stored in PostgreSQL.</p>
+
+  <h2>Add a book</h2>
+  <form id="book-form">
+    <label for="title">Title (required)</label>
+    <input id="title" name="title" maxlength="100"
+           placeholder="Book title">
+
+    <label for="genre">Genre</label>
+    <input id="genre" name="genre" maxlength="50"
+           placeholder="e.g. fantasy">
+
+    <label for="published_year">Published year</label>
+    <input id="published_year" name="published_year"
+           type="number" min="1" max="9999"
+           placeholder="e.g. 2020">
+
+    <label for="author_id">Author ID (optional)</label>
+    <input id="author_id" name="author_id" type="number" min="1"
+           placeholder="e.g. 1">
+
+    <button type="submit">Add book</button>
+  </form>
+
+  <p id="message" role="status" aria-live="polite"></p>
+
+  <h2>Books</h2>
+  <button id="refresh" type="button">Refresh books</button>
+  <div id="books"></div>
+
+  <script src="/script.js" defer></script>
+</body>
+</html>
