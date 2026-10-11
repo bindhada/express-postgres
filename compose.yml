@@ -1,41 +1,28 @@
-
 services:
-  db:
-    image: postgres:17
+  postgres:
+    image: postgres:16
+    container_name: library-postgres
     restart: unless-stopped
     environment:
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: library
     ports:
-      - "5433:5432"
+      - "5434:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
-    networks:
-      library_network:
-        aliases:
-          - db
 
   pgadmin:
     image: dpage/pgadmin4
+    container_name: library-pgadmin
     restart: unless-stopped
-    depends_on:
-      - db
     environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
     ports:
       - "5050:80"
-    volumes:
-      - pgadmin_data:/var/lib/pgadmin
-    networks:
-      - library_network
+    depends_on:
+      - postgres
 
 volumes:
   postgres_data:
-  pgadmin_data:
-
-networks:
-  library_network:
-    driver: bridge
