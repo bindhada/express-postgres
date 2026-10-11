@@ -1,16 +1,30 @@
 {
-  "name": "express-postgres",
+  "name": "zod-eslint",
   "version": "1.0.0",
-  "description": "Express API with PostgreSQL",
-  "main": "index.js",
+  "private": true,
   "type": "module",
   "scripts": {
-    "start": "node index.js",
-    "dev": "node --watch index.js"
+    "dev": "tsx watch src/index.ts",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "dotenv": "^16.4.7",
     "express": "^5.1.0",
-    "pg": "^8.13.1"
+    "pg": "^8.13.1",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.0.0",
+    "@stylistic/eslint-plugin": "^5.0.0",
+    "@types/eslint": "^9.6.0",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.0.0",
+    "@types/pg": "^8.11.0",
+    "eslint": "^9.0.0",
+    "jiti": "^2.4.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0",
+    "typescript-eslint": "^8.0.0"
   }
 }
