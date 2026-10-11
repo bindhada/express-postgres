@@ -1,13 +1,36 @@
+
 import eslint from "@eslint/js";
+import stylistic from "@stylistic/eslint-plugin";
+import { defineConfig } from "eslint/config";
+import globals from "globals";
 import tseslint from "typescript-eslint";
 
-export default tseslint.config(
+export default defineConfig(
   {
-    ignores: ["dist/**", "node_modules/**"],
+    ignores: [
+      "dist/**",
+      "node_modules/**",
+      "db.js",
+      "index.js",
+      "public/**",
+    ],
   },
-  eslint.configs.recommended,
-  ...tseslint.configs.recommended,
   {
+    files: ["**/*.ts"],
+    extends: [
+      eslint.configs.recommended,
+      ...tseslint.configs.recommendedTypeChecked,
+    ],
+    languageOptions: {
+      globals: globals.node,
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
+      },
+    },
+    plugins: {
+      "@stylistic": stylistic,
+    },
     rules: {
       "@typescript-eslint/no-unused-vars": [
         "error",
@@ -15,12 +38,12 @@ export default tseslint.config(
           argsIgnorePattern: "^_",
         },
       ],
-      curly: "error",
-      semi: ["error", "always"],
-      quotes: ["error", "double"],
-      indent: ["error", 2],
-      "object-curly-spacing": ["error", "always"],
-      "no-console": "warn",
+      curly: ["error", "all"],
+      "@stylistic/semi": ["error", "always"],
+      "@stylistic/quotes": ["error", "double"],
+      "@stylistic/indent": ["error", 2],
+      "@stylistic/object-curly-spacing": ["error", "always"],
+      "no-console": "off",
     },
   },
 );

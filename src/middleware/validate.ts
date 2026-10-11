@@ -1,3 +1,4 @@
+
 import type {
   NextFunction,
   Request,
@@ -6,6 +7,8 @@ import type {
 import { z } from "zod";
 
 type ValidationSource = "body" | "params" | "query";
+
+type ValidatedData = Record<string, unknown>;
 
 export function validate(
   schema: z.ZodType,
@@ -25,7 +28,35 @@ export function validate(
       return;
     }
 
-    res.locals.validated = result.data;
+    const parsed: unknown = result.data;
+
+    if (
+      typeof parsed !== "object" ||
+      parsed === null ||
+      Array.isArray(parsed)
+    ) {
+      res.status(400).json({
+        error: "Expected an object",
+      });
+      return;
+    }
+
+    const previous: unknown = res.locals.validated;
+
+    const existing: ValidatedData =
+      typeof previous === "object" &&
+      previous !== null &&
+      !Array.isArray(previous)
+        ? (previous as ValidatedData)
+        : {};
+
+    const validated: ValidatedData = {
+      ...existing,
+      ...(parsed as ValidatedData),
+    };
+
+    res.locals.validated = validated;
+
     next();
   };
 }
